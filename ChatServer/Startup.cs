@@ -47,7 +47,7 @@ namespace FunctionsOpenTelemetry
             var openTelemetryMeterProvider = Sdk.CreateMeterProviderBuilder()
                 .SetResourceBuilder(openTelemetryResourceBuilder)
                 .AddAspNetCoreInstrumentation()
-                .AddMeter(Function1.MyMeter.Name)
+                .AddMeter(Talk.MyMeter.Name)
                 .AddConsoleExporter(consoleOptions =>
                     {
                         consoleOptions.MetricReaderType = MetricReaderType.Periodic;
