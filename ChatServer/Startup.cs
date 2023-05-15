@@ -7,6 +7,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 
 [assembly: FunctionsStartup(typeof(ChatServer.Startup))]
 namespace ChatServer
@@ -36,16 +37,25 @@ namespace ChatServer
             );
 
             // Enable Tracing with OpenTelemetry
-            var openTelemetryTracerProvider = Sdk.CreateTracerProviderBuilder()
+            builder.Services.AddOpenTelemetry()
+                .WithTracing(tracerProviderBuilder =>
+                    tracerProviderBuilder
+                        .AddSource(DiagnosticsConfig.ActivitySource.Name)
+                        .ConfigureResource(resource => resource
+                            .AddService(DiagnosticsConfig.ServiceName))
+                        .AddAspNetCoreInstrumentation()
+                        .AddConsoleExporter());
+            /*var openTelemetryTracerProvider = Sdk.CreateTracerProviderBuilder()
                 .SetResourceBuilder(openTelemetryResourceBuilder)
                 .SetSampler(new AlwaysOnSampler())
                 .AddAspNetCoreInstrumentation()
-                .AddConsoleExporter()
+                //.AddConsoleExporter()
+                .AddOtlpExporter()
                 .Build();
-            builder.Services.AddSingleton(openTelemetryTracerProvider);
+            builder.Services.AddSingleton(openTelemetryTracerProvider);*/
 
             // Enable Metrics with OpenTelemetry
-            var openTelemetryMeterProvider = Sdk.CreateMeterProviderBuilder()
+            /*var openTelemetryMeterProvider = Sdk.CreateMeterProviderBuilder()
                 .SetResourceBuilder(openTelemetryResourceBuilder)
                 .AddAspNetCoreInstrumentation()
                 //.AddMeter(Talk.MyMeter.Name)
@@ -56,8 +66,18 @@ namespace ChatServer
                         consoleOptions.AggregationTemporality = AggregationTemporality.Cumulative;
                         consoleOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 10000;
                     })*/
-                .Build();
-            builder.Services.AddSingleton(openTelemetryMeterProvider);
+            /*    .Build();
+            builder.Services.AddSingleton(openTelemetryMeterProvider);*/
         }
     }
+}
+
+public static class DiagnosticsConfig
+{
+    public const string ServiceName = "chat-server";
+    public static ActivitySource ActivitySource = new ActivitySource(ServiceName);
+
+    public static Meter Meter = new(ServiceName);
+    /*public static Counter<long> RequestCounter =
+        Meter.CreateCounter<long>("app.request_counter");*/
 }
