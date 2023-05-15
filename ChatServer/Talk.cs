@@ -47,7 +47,7 @@ namespace ChatServer
                     });
 
                 log.LogInformation($"Sent message '{message.Text}'");
-                Activity.Current?.SetTag("name", message.Text);
+                //Activity.Current?.SetTag("name", message.Text);
 
                 return new OkObjectResult($"Hello {message.Name}, your message was '{message.Text}'");
             }
