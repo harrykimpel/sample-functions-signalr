@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.2.0-rc2" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.14" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
