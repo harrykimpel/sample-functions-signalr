@@ -7,8 +7,8 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
-[assembly: FunctionsStartup(typeof(FunctionsOpenTelemetry.Startup))]
-namespace FunctionsOpenTelemetry
+[assembly: FunctionsStartup(typeof(ChatServer.Startup))]
+namespace ChatServer
 {
     public class Startup : FunctionsStartup
     {
@@ -48,12 +48,13 @@ namespace FunctionsOpenTelemetry
                 .SetResourceBuilder(openTelemetryResourceBuilder)
                 .AddAspNetCoreInstrumentation()
                 .AddMeter(Talk.MyMeter.Name)
-                .AddConsoleExporter(consoleOptions =>
+                //.AddOtlpExporter()
+                .AddConsoleExporter()/*consoleOptions =>
                     {
                         consoleOptions.MetricReaderType = MetricReaderType.Periodic;
                         consoleOptions.AggregationTemporality = AggregationTemporality.Cumulative;
                         consoleOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 10000;
-                    })
+                    })*/
                 .Build();
             builder.Services.AddSingleton(openTelemetryMeterProvider);
         }
