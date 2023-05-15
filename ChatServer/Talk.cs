@@ -19,8 +19,8 @@ namespace ChatServer
 {
     public static class Talk
     {
-        internal static Meter MyMeter = new Meter("FunctionsOpenTelemetry.MyMeter");
-        internal static Counter<long> MyCounter = MyMeter.CreateCounter<long>("MyCounter");
+        //internal static Meter MyMeter = new Meter("FunctionsOpenTelemetry.MyMeter");
+        //internal static Counter<long> MyCounter = MyMeter.CreateCounter<long>("MyCounter");
 
         [FunctionName("Talk")]
         public static async Task<IActionResult> Run(
@@ -35,7 +35,7 @@ namespace ChatServer
         {
             try
             {
-                MyCounter.Add(1, new("name", "apple"), new("color", "red"));
+                //MyCounter.Add(1, new("name", "apple"), new("color", "red"));
                 string json = await new StreamReader(req.Body).ReadToEndAsync();
                 var message = JsonConvert.DeserializeObject<Message>(json);
 
