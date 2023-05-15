@@ -47,7 +47,7 @@ namespace ChatServer
             var openTelemetryMeterProvider = Sdk.CreateMeterProviderBuilder()
                 .SetResourceBuilder(openTelemetryResourceBuilder)
                 .AddAspNetCoreInstrumentation()
-                .AddMeter(Talk.MyMeter.Name)
+                //.AddMeter(Talk.MyMeter.Name)
                 //.AddOtlpExporter()
                 .AddConsoleExporter()/*consoleOptions =>
                     {
